@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dasi Does Dis n Dat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f0e11;
+      --card: #1a1825;
+      --accent: #f5a623;
+      --accent2: #e8445a;
+      --text: #f0eeff;
+      --muted: #9b97b2;
+      --coffee: #c8813a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* animated grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    header {
+      padding: 3rem 2rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      animation: fadeDown 0.8s 0.2s ease both;
+      opacity: 0;
+    }
+
+    /* hero section */
+    .hero {
+      max-width: 700px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
+      opacity: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .card p {
+      color: #ccc9e0;
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .emoji-row {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* stats strip */
+    .stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .stat {
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 0.8rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* procrastination tool */
+    .tool-card {
+      background: linear-gradient(135deg, #1f1830 0%, #1a1825 100%);
+      border: 1px solid rgba(232,68,90,0.3);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(232,68,90,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .tool-card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      color: var(--accent2);
+      margin-bottom: 0.4rem;
+    }
+
+    .tool-card .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .excuse-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 1.2rem 0;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .excuse-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      transition: opacity 0.3s ease;
+    }
+
+    .excuse-text.hidden { opacity: 0; }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent2), #c0303f);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 3rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(232,68,90,0.4);
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(232,68,90,0.5);
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .counter {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+    }
+
+    /* journey section */
+    .journey-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .journey-item:last-child { border-bottom: none; }
+
+    .day-badge {
+      background: linear-gradient(135deg, var(--accent), var(--coffee));
+      color: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.4rem;
+      white-space: nowrap;
+      margin-top: 0.1rem;
+    }
+
+    .journey-item p {
+      font-size: 0.95rem;
+      color: #ccc9e0;
+      line-height: 1.5;
+    }
+
+    .journey-item a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .journey-item a:hover { text-decoration: underline; }
+
+    /* coffee section */
+    .coffee-card {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .coffee-card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      color: var(--coffee);
+      margin-bottom: 0.5rem;
+    }
+
+    .coffee-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-coffee {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--coffee), #a8692a);
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.8rem;
+      border-radius: 3rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(200,129,58,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-coffee:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(200,129,58,0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .pop { animation: pop 0.3s ease; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Dasi Does Dis n Dat</div>
+  <p class="tagline">5 kids · zero coding experience · questionable life decisions · attempting AI anyway ☕</p>
+</header>
+
+<main class="hero">
+
+  <!-- About Me -->
+  <div class="card" style="animation: fadeUp 0.8s 0.4s ease both; opacity:0">
+    <div class="emoji-row">👋🇮🇸</div>
+    <h2>Hi, I'm Dasi</h2>
+    <p>
+      I'm a parent of five kids — the youngest just turned one — based in Iceland. 
+      I have no coding background, no computer science degree, and absolutely no idea 
+      what I'm doing. I'm learning AI from scratch, in public, one chaotic day at a time.
+    </p>
+    <p style="margin-top:0.8rem">
+      This page is my first project. It's simple, it's a little silly, and I built it 
+      on Day 1 of my journey. That's kind of the whole point.
+    </p>
+    <div class="stats">
+      <span class="stat">📅 Started May 2026</span>
+      <span class="stat">👶 5 kids</span>
+      <span class="stat">🧠 Complete beginner</span>
+      <span class="stat">☕ Needs coffee</span>
+    </div>
+  </div>
+
+  <!-- Procrastination Tool -->
+  <div class="tool-card" style="animation: fadeUp 0.8s 0.6s ease both; opacity:0">
+    <h2>🦥 The Procrastination Excuse Generator</h2>
+    <p class="subtitle">My first AI tool. It is not actually AI. But neither am I, yet.</p>
+
+    <div class="excuse-box">
+      <p class="excuse-text" id="excuse">Press the button. You deserve a break first.</p>
+    </div>
+
+    <button class="btn" onclick="generateExcuse()">Give Me An Excuse ✨</button>
+    <p class="counter" id="counter">0 excuses generated so far today</p>
+  </div>
+
+  <!-- My Journey -->
+  <div class="card" style="animation: fadeUp 0.8s 0.8s ease both; opacity:0">
+    <h2>📚 My Journey So Far</h2>
+
+    <div class="journey-item">
+      <span class="day-badge">DAY 1</span>
+      <p>Created a GitHub account, learned what a repo is, changed my username before anyone saw it, and built this page. 
+        <a href="https://github.com/dasi-does-dis-n-dat" target="_blank">Read the full diary →</a>
+      </p>
+    </div>
+
+    <div class="journey-item">
+      <span class="day-badge">DAY 2</span>
+      <p>Coming soon... probably after someone naps. 😄</p>
+    </div>
+  </div>
+
+  <!-- Coffee -->
+  <div class="card coffee-card" style="animation: fadeUp 0.8s 1s ease both; opacity:0">
+    <h2>☕ Send Coffee</h2>
+    <p>If this journey entertains or helps you, you can support it here. Every coffee keeps one more nappy change survivable.</p>
+    <a class="btn-coffee" href="https://buymeacoffee.com" target="_blank">☕ Buy Dasi a Coffee</a>
+  </div>
+
+</main>
+
+<footer>
+  Built by Dasi · <a href="https://github.com/dasi-does-dis-n-dat" target="_blank">GitHub</a> · Day 1 of a very long journey 🚀
+</footer>
+
+<script>
+  const excuses = [
+    "Mercury is in retrograde. Not ideal for productivity.",
+    "You need to let your ideas marinate. For at least 3 more hours.",
+    "Research shows the best ideas come right after a nap. Time to test that.",
+    "You can't pour from an empty cup. Fill the cup first. With coffee.",
+    "Your brain needs a warm-up. Scrolling counts.",
+    "It's too early. Or too late. Either way, not now.",
+    "Statistically, most great work happens on the last possible day. You're just being efficient.",
+    "You should probably eat something first. Can't think on an empty stomach.",
+    "The vibe isn't right. Come back when the vibe is right.",
+    "Honestly? The kids need you. (They're fine. But still.)",
+    "You've already done so much today. Like, waking up. That was big.",
+    "Let the idea breathe. Ideas need oxygen. Give it space.",
+    "Your desk isn't clean enough to work at. Tidy first.",
+    "Just five more minutes. This is minute one.",
+    "You should probably check if you have any notifications first. Just to be safe.",
+    "A watched task never gets done. Walk away. Come back later.",
+    "You need to be inspired. Have you tried watching one more video?",
+    "It's actually better to start fresh tomorrow. Everyone knows this.",
+    "Your future self will thank you for the rest. Probably.",
+    "The WiFi feels a bit slow today. Best to wait it out.",
+  ];
+
+  let count = 0;
+
+  function generateExcuse() {
+    const box = document.getElementById('excuse');
+    const counter = document.getElementById('counter');
+    const btn = document.querySelector('.btn');
+
+    box.classList.add('hidden');
+
+    setTimeout(() => {
+      const random = excuses[Math.floor(Math.random() * excuses.length)];
+      box.textContent = random;
+      box.classList.remove('hidden');
+      count++;
+      counter.textContent = `${count} excuse${count !== 1 ? 's' : ''} generated so far today`;
+      btn.classList.add('pop');
+      setTimeout(() => btn.classList.remove('pop'), 300);
+    }, 250);
+  }
+</script>
+
+</body>
+</html>
