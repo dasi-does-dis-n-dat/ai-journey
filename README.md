@@ -6,7 +6,7 @@
 
 ## 🧭 My Story
 
-I'm a parent of 5 kids (the youngest just turned 1) based in Iceland, and I'm on a mission to build a new career in AI — one day at a time, around real life.
+I'm a parent of 5 kids (the youngest just turned 1), and I'm on a mission to build a new career in AI — one day at a time, around real life.
 
 I have no coding background. No computer science degree. Just curiosity, determination, and a goal: to build something of my own and work on my own terms.
 
