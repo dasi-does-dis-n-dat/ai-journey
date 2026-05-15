@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Day 1 — Dasi Does Dis n Dat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f0e11;
+      --card: #1a1825;
+      --accent: #f5a623;
+      --accent2: #e8445a;
+      --text: #f0eeff;
+      --muted: #9b97b2;
+      --coffee: #c8813a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    nav {
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover { opacity: 0.7; }
+
+    nav .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-left: auto;
+    }
+
+    header {
+      max-width: 720px;
+      margin: 3rem auto 0;
+      padding: 0 1.5rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .day-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--coffee));
+      color: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    header .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .section {
+      background: var(--card);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section p {
+      color: #ccc9e0;
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .glossary-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      align-items: flex-start;
+    }
+
+    .glossary-item:last-child { border-bottom: none; }
+
+    .glossary-term {
+      background: rgba(245,166,35,0.12);
+      border: 1px solid rgba(245,166,35,0.2);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 0.4rem;
+      white-space: nowrap;
+      min-width: 130px;
+      text-align: center;
+    }
+
+    .glossary-def {
+      color: #ccc9e0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: 0.5rem 0;
+      color: #ccc9e0;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+
+    .check {
+      color: #4ade80;
+      font-size: 1.1rem;
+      margin-top: 0.05rem;
+      flex-shrink: 0;
+    }
+
+    .highlight {
+      background: rgba(232,68,90,0.1);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 0.8rem 0.8rem 0;
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      color: #ccc9e0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .confidence {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .conf-bar {
+      height: 8px;
+      width: 32px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .conf-bar.filled { background: var(--accent); }
+
+    .conf-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-left: 0.3rem;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      background: linear-gradient(135deg, var(--accent), var(--coffee));
+      color: #000;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 3rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(245,166,35,0.3);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245,166,35,0.4);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Back to Home</a>
+  <span class="brand">Dasi Does Dis n Dat</span>
+</nav>
+
+<header>
+  <span class="day-badge">DAY 1</span>
+  <h1>The Day I Decided to Do Something Completely Unreasonable</h1>
+  <p class="meta">📅 May 2026 · ☕ Written with coffee · 👶 Baby was (briefly) asleep</p>
+</header>
+
+<div class="content">
+
+  <!-- Intro -->
+  <div class="section">
+    <h2>How It Started</h2>
+    <p>I woke up today with five kids, zero coding experience, and the completely reasonable idea that I should become an AI specialist.</p>
+    <p>So I made a GitHub account. Which immediately raised the question: <em>what is GitHub?</em></p>
+    <p>This is the story of Day 1. It is not glamorous. It is very much the beginning of a very long journey. But here we are.</p>
+    <div class="highlight">
+      "We definitely have a long journey ahead of us. A very, very long journey. But somewhere between nappy changes, bedtime chaos, and questionable life decisions — we're doing it anyway."
+    </div>
+  </div>
+
+  <!-- What I learned -->
+  <div class="section" style="animation-delay: 0.1s">
+    <h2>What I Actually Learned Today</h2>
+    <p>GitHub is basically a place where developers store their code and projects. Think of it like Google Drive, but for code, and with a slightly more intimidating interface designed to make normal people feel like they've accidentally walked into NASA.</p>
+    <p>Here's what all the confusing words actually mean:</p>
+
+    <div style="margin-top: 1rem;">
+      <div class="glossary-item">
+        <span class="glossary-term">Repository</span>
+        <span class="glossary-def">A folder for your project. Not a bank. I asked.</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Commit</span>
+        <span class="glossary-def">Saving your work with a little note. Like a diary entry but for code.</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Branch</span>
+        <span class="glossary-def">A copy of your project to experiment in without breaking the original. Very useful when you have no idea what you're doing, which is always.</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Pull Request</span>
+        <span class="glossary-def">Asking to merge your changes back into the main project. Sounds aggressive. Is not.</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">README</span>
+        <span class="glossary-def">The front page of your repo. The first thing anyone sees. Mine took three attempts to upload correctly.</span>
+      </div>
+      <div class="glossary-item">
+        <span class="glossary-term">Repo vs Project</span>
+        <span class="glossary-def">A repo is where your files live. A project is a planning board on top. I only need repos right now. Good. One less thing.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Username saga -->
+  <div class="section" style="animation-delay: 0.15s">
+    <h2>The Username Saga</h2>
+    <p>I signed up with my actual last name.</p>
+    <p>There are not many people with my last name.</p>
+    <p>I changed it immediately.</p>
+    <p>After much deliberation and a surprising amount of creative energy for someone who hasn't slept properly since 2020, I landed on: <strong style="color: var(--accent)">dasi-does-dis-n-dat</strong></p>
+    <p>It's funny. It's vague enough to cover anything I end up doing. It might become a brand. It might become a cry for help. Possibly both. The "send coffee" joke might literally become a business model one day. Watch this space. ☕</p>
+  </div>
+
+  <!-- Silly questions -->
+  <div class="section" style="animation-delay: 0.2s">
+    <h2>Silly Questions I Asked (So You Don't Have To)</h2>
+    <ul class="checklist">
+      <li><span class="check">💬</span> <em>"What is GitHub?"</em> — asked within 30 seconds of starting</li>
+      <li><span class="check">💬</span> <em>"Will people know it's me?"</em> — yes, if you use your actual name. I did not use my actual name.</li>
+      <li><span class="check">💬</span> <em>"Can I change my name on GitHub?"</em> — yes. Do this before you tell anyone your username.</li>
+      <li><span class="check">💬</span> <em>"Do I create a repo or just upload files?"</em> — shelf first, book second. 🪵📖</li>
+      <li><span class="check">💬</span> <em>"Where is the README we made?"</em> — "we" was doing a lot of heavy lifting. Claude made it. I downloaded it. Team effort.</li>
+    </ul>
+  </div>
+
+  <!-- What I set up -->
+  <div class="section" style="animation-delay: 0.25s">
+    <h2>What I Actually Got Done Today</h2>
+    <ul class="checklist">
+      <li><span class="check">✅</span> Created a GitHub account</li>
+      <li><span class="check">✅</span> Changed my username before anyone saw it</li>
+      <li><span class="check">✅</span> Learned what repos, commits, branches and pull requests are</li>
+      <li><span class="check">✅</span> Created my first repository</li>
+      <li><span class="check">✅</span> Uploaded my first file</li>
+      <li><span class="check">✅</span> Built my first actual webpage with a working tool</li>
+      <li><span class="check">✅</span> Got it live on the internet</li>
+      <li><span class="check">✅</span> Survived with all five kids still fed and accounted for</li>
+    </ul>
+  </div>
+
+  <!-- Confidence -->
+  <div class="section" style="animation-delay: 0.3s">
+    <h2>How I Feel Right Now</h2>
+    <p>Confused. Slightly proud. Mildly terrified. Ready for Day 2.</p>
+    <p style="margin-top: 0.8rem; color: var(--muted); font-size: 0.9rem;">Confidence level today:</p>
+    <div class="confidence">
+      <div class="conf-bar filled"></div>
+      <div class="conf-bar filled"></div>
+      <div class="conf-bar filled"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <div class="conf-bar"></div>
+      <span class="conf-label">3/10 — but yesterday it was 0/10, so trending up 🚀</span>
+    </div>
+
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
